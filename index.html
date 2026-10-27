@@ -118,6 +118,21 @@ footer { padding: 25px; color: #58715e; }
   <p>Not sure what to do? Let us choose for you!</p>
   <button onclick="randomActivity()">Give Me an Activity ✨</button>
   <div id="random" aria-live="polite"></div>
+  <h2>📔 My Happiness Journal</h2>
+  <p>Write down whatever is on your mind. This space is yours. 💚</p>
+
+  <textarea id="journalEntry"
+    placeholder="How was your day? What are you feeling?"
+    rows="5"
+    style="width:100%;max-width:500px;padding:15px;border-radius:12px;border:1px solid #a5d6a7;font-size:16px;">
+  </textarea>
+
+  <br><br>
+  <button onclick="saveJournal()">Save My Entry 💚</button>
+  <p id="journalMessage" aria-live="polite"></p>
+
+  <h3>📚 My Previous Entries</h3>
+  <div id="journalHistory"></div>
 </main>
 
 <footer>Made with 💚 for anyone learning to enjoy their own company.</footer>
@@ -184,6 +199,66 @@ function randomActivity() {
     activity + "</p><button onclick='randomActivity()'>" +
     "Try another ↻</button></div>";
 }
+  function saveJournal() {
+  const input = document.getElementById("journalEntry");
+  const message = document.getElementById("journalMessage");
+  const entry = input.value.trim();
+
+  if (!entry) {
+    message.textContent = "Write something first 💚";
+    return;
+  }
+
+  let entries = JSON.parse(
+    localStorage.getItem("happyAloneJournal") || "[]"
+  );
+
+  entries.unshift({
+    text: entry,
+    date: new Date().toLocaleString()
+  });
+
+  localStorage.setItem(
+    "happyAloneJournal",
+    JSON.stringify(entries)
+  );
+
+  input.value = "";
+  message.textContent = "Your entry is saved! 🌿";
+  showJournal();
+}
+
+function showJournal() {
+  const history = document.getElementById("journalHistory");
+  const entries = JSON.parse(
+    localStorage.getItem("happyAloneJournal") || "[]"
+  );
+
+  history.innerHTML = "";
+
+  if (entries.length === 0) {
+    history.textContent = "Your journal entries will appear here.";
+    return;
+  }
+
+  entries.forEach(function(entry) {
+    const card = document.createElement("div");
+    card.style.cssText =
+      "background:white;padding:15px;margin:12px 0;border-radius:12px;text-align:left";
+
+    const date = document.createElement("small");
+    date.textContent = entry.date;
+
+    const text = document.createElement("p");
+    text.textContent = entry.text;
+
+    card.appendChild(date);
+    card.appendChild(text);
+    history.appendChild(card);
+  });
+}
+
+showJournal();
 </script>
 </body>
 </html>
