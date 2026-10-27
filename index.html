@@ -1,85 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-  <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #e8f5e9, #f1f8e9, #e0f2f1);
-    color: #2e4d3a;
-    text-align: center;
-    padding: 25px;
-    margin: 0;
-    min-height: 100vh;
-  }
-
-  h1 {
-    color: #2e7d32;
-    font-size: 36px;
-    margin-top: 35px;
-  }
-
-  h2 {
-    color: #388e3c;
-  }
-
-  button {
-    background: #66bb6a;
-    color: white;
-    border: none;
-    padding: 13px 20px;
-    margin: 7px;
-    border-radius: 25px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #388e3c;
-  }
-
-  #result, #activities {
-    margin-top: 20px;
-  }
-</style>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Alone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Alone 🌿</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(135deg, #e8f5e9, #f1f8e9);
+  color: #294b36;
+}
+
+header { padding: 35px 15px 20px; }
+
+h1 { color: #2e7d32; font-size: 36px; }
+.subtitle { font-size: 18px; }
+
+main { max-width: 850px; margin: auto; padding: 15px; }
+
+.moods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+button {
+  border: none;
+  border-radius: 25px;
+  padding: 13px 18px;
+  background: #43a047;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover { background: #2e7d32; }
+
+#result {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 4px 14px #00000010;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 4px 14px #00000010;
+}
+
+.card h3 { color: #388e3c; }
+
+footer { padding: 25px; color: #58715e; }
+</style>
 </head>
+
 <body>
-
+<header>
   <h1>🌿 Happy Alone</h1>
-  <h2>Your time. Your happiness.</h2>
+  <p class="subtitle">Your time. Your happiness.</p>
   <p>Being alone doesn't mean being unhappy.</p>
-  <p>Let's find something that makes you smile!</p>
+  <p>Take a breath. Choose yourself. Find your little happiness. 💚</p>
+</header>
 
+<main>
   <h2>How are you feeling today?</h2>
+  <div class="moods">
+    <button onclick="showMood('Sad')">😔 Sad</button>
+    <button onclick="showMood('Bored')">🥱 Bored</button>
+    <button onclick="showMood('Lonely')">🥺 Lonely</button>
+    <button onclick="showMood('Stressed')">😵 Stressed</button>
+    <button onclick="showMood('Happy')">😊 Happy</button>
+  </div>
 
-  <button onclick="showMood('Sad')">😔 Sad</button>
-  <button onclick="showMood('Bored')">🥱 Bored</button>
-  <button onclick="showMood('Lonely')">🥺 Lonely</button>
-  <button onclick="showMood('Stressed')">😵 Stressed</button>
-  <button onclick="showMood('Happy')">😊 Happy</button>
+  <div id="result" aria-live="polite">
+    <h3>Choose your mood 💚</h3>
+    Your next little activity is waiting for you.
+  </div>
 
-  <h2 id="result">Choose your mood 💚</h2>
-  <div id="activities"></div>
+  <h2>✨ Try Something Today</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>🎵 Music Time</h3>
+      <p>Listen to a song that makes you feel good.</p>
+    </div>
+    <div class="card">
+      <h3>🎨 Get Creative</h3>
+      <p>Draw, write, or create something just for fun.</p>
+    </div>
+    <div class="card">
+      <h3>🌿 Peaceful Break</h3>
+      <p>Take a slow breath and enjoy a quiet moment.</p>
+    </div>
+    <div class="card">
+      <h3>🚶 Move a Little</h3>
+      <p>Stretch your body or take a short walk.</p>
+    </div>
+  </div>
 
-  <script>
-    function showMood(mood) {
-      const activities = {
-        Sad: "Listen to your favorite music 🎵",
-        Bored: "Try drawing something 🎨",
-        Lonely: "Message someone you trust 💌",
-        Stressed: "Take a gentle breathing break 🌿",
-        Happy: "Enjoy a hobby you love ☀️"
-      };
+  <h2>🎲 Random Happiness Generator</h2>
+  <p>Not sure what to do? Let us choose for you!</p>
+  <button onclick="randomActivity()">Give Me an Activity ✨</button>
+  <div id="random" aria-live="polite"></div>
+</main>
 
-      document.getElementById("result").textContent =
-        "It's okay to feel " + mood.toLowerCase() + ".";
+<footer>Made with 💚 for anyone learning to enjoy their own company.</footer>
 
-      document.getElementById("activities").textContent =
-        "Try this: " + activities[mood];
-    }
-  </script>
+<script>
+const suggestions = {
+  Sad: [
+    "Listen to your favorite comforting song 🎵",
+    "Write down one thing you appreciate about yourself 💚",
+    "Watch something that makes you smile 😊"
+  ],
+  Bored: [
+    "Draw something in five minutes 🎨",
+    "Learn one new fact 🌍",
+    "Try a new song or hobby 🎧"
+  ],
+  Lonely: [
+    "Send a message to someone you trust 💌",
+    "Spend time doing something you enjoy 🌱",
+    "Remember that you deserve connection and care 💚"
+  ],
+  Stressed: [
+    "Relax your shoulders and breathe slowly 🌿",
+    "Take a short break away from your screen ☀️",
+    "Write down what is on your mind ✍️"
+  ],
+  Happy: [
+    "Save this moment in a journal ☀️",
+    "Share your happiness with someone 😊",
+    "Try something creative today 🎨"
+  ]
+};
 
+function showMood(mood) {
+  const options = suggestions[mood];
+  const activity = options[Math.floor(Math.random() * options.length)];
+
+  document.getElementById("result").innerHTML =
+    "<h3>It's okay to feel " + mood.toLowerCase() +
+    ". 💚</h3><p>Here's an idea for you:</p><p>" +
+    activity + "</p><button onclick=\"showMood('" + mood +
+    "')\">Give me another idea ↻</button>";
+}
+
+const allActivities = [
+  "Take a five-minute walk 🚶",
+  "Listen to a favorite song 🎵",
+  "Make yourself a nice drink ☕",
+  "Write three thoughts in a journal ✍️",
+  "Stretch and relax 🌿",
+  "Learn something new for five minutes 📚",
+  "Draw a silly picture 🎨",
+  "Tidy one small corner of your room ✨",
+  "Watch the sky for a few minutes ☁️",
+  "Message a friend you trust 💌"
+];
+
+function randomActivity() {
+  const activity = allActivities[
+    Math.floor(Math.random() * allActivities.length)
+  ];
+  document.getElementById("random").innerHTML =
+    "<div id='result'><h3>Your little mission 💚</h3><p>" +
+    activity + "</p><button onclick='randomActivity()'>" +
+    "Try another ↻</button></div>";
+}
+</script>
 </body>
 </html>
