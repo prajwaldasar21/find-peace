@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Alone</title>
+</head>
+<body>
+
+  <h1>🌿 Happy Alone</h1>
+  <h2>Your time. Your happiness.</h2>
+  <p>Being alone doesn't mean being unhappy.</p>
+  <p>Let's find something that makes you smile!</p>
+
+  <h2>How are you feeling today?</h2>
+
+  <button onclick="showMood('Sad')">😔 Sad</button>
+  <button onclick="showMood('Bored')">🥱 Bored</button>
+  <button onclick="showMood('Lonely')">🥺 Lonely</button>
+  <button onclick="showMood('Stressed')">😵 Stressed</button>
+  <button onclick="showMood('Happy')">😊 Happy</button>
+
+  <h2 id="result">Choose your mood 💚</h2>
+  <div id="activities"></div>
+
+  <script>
+    function showMood(mood) {
+      const activities = {
+        Sad: "Listen to your favorite music 🎵",
+        Bored: "Try drawing something 🎨",
+        Lonely: "Message someone you trust 💌",
+        Stressed: "Take a gentle breathing break 🌿",
+        Happy: "Enjoy a hobby you love ☀️"
+      };
+
+      document.getElementById("result").textContent =
+        "It's okay to feel " + mood.toLowerCase() + ".";
+
+      document.getElementById("activities").textContent =
+        "Try this: " + activities[mood];
+    }
+  </script>
+
+</body>
+</html>
